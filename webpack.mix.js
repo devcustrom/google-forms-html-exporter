@@ -9,12 +9,14 @@ mix
 			modules: [path.resolve(__dirname, "node_modules")],
 		},
 	})
-	.js("app/scripts/main.js", "dist/js")
-	.css("app/styles/main.css", "dist/css")
+	.js("app/scripts/main.js", "docs/js")
+	.css("app/styles/main.css", "docs/css")
 	.html({
+		output: './docs',
 		htmlRoot: 'app/*.html'
 	})
+	.copy('app/*.txt', 'docs')
 	.browserSync({
-		server: "./dist/",
-		files: ["./**/*.html", "./dist"],
+		server: "./docs",
+		files: ["./**/*.html", "./docs"],
 	});

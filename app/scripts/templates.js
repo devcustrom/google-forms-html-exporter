@@ -24,26 +24,22 @@ export default new class Templates {
 	}
 
 	handler() {
-		Handlebars.registerHelper('ifType', (field, typename, options) => field.typeid === this.FieldTypes.indexOf(typename) ? options.fn(this) : '')
-
-		Handlebars.registerHelper('fieldtype', (typeid) => this.FieldTypes[typeid])
-
-		Handlebars.registerHelper('countTo', (num) => [...Array(num).keys()].join(','))
-
-		Handlebars.registerHelper('legend', (array, last) => last ? array[array.length-1].label : array[0].label)
-
-		Handlebars.registerHelper('datePlaceholder', () => new Date().toLocaleDateString())
-
-		Handlebars.registerHelper('timePlaceholder', () => new Date().toLocaleTimeString())
+		Handlebars
+			.registerHelper('ifType', (field, typename, options) => field.typeid === this.FieldTypes.indexOf(typename) ? options.fn(this) : '')
+			.registerHelper('fieldtype', (typeid) => this.FieldTypes[typeid])
+			.registerHelper('countTo', (num) => [...Array(num).keys()].join(','))
+			.registerHelper('legend', (array, last) => last ? array[array.length-1].label : array[0].label)
+			.registerHelper('datePlaceholder', () => new Date().toLocaleDateString())
+			.registerHelper('timePlaceholder', () => new Date().toLocaleTimeString())
 
 		this.form = Handlebars.compile(`
-		<form
-			x-data="form"
-			x-ref="form"
-			action="https://docs.google.com{{path}}/d/{{action}}/formResponse"
-			@submit.prevent="submit"
-			method="POST"
-		>
+			<form
+				x-data="form"
+				x-ref="form"
+				action="https://docs.google.com{{path}}/d/{{action}}/formResponse"
+				@submit.prevent="submit"
+				method="POST"
+			>
 				{{#if title}}
 				<fieldset>
 						<h2>{{ title }}<br><small>{{desc}}</small></h2>
@@ -206,45 +202,45 @@ export default new class Templates {
 
 				<!-- emptyline -->
 				<button class="" type="submit">Submit</button>
-		</form>
+			</form>
 		`)
 
 		this.js = Handlebars.compile(`
-				{{#each fields as |f|}}
-				{{#ifType f 'date'}}
-				{
-						/* Parsing input date id={{f.widgets.0.id}} */
-						var dateField = $("#{{f.widgets.0.id}}_date").val()
-						var timeField = $("#{{f.widgets.0.id}}_time").val()
-						let d = new Date(dateField)
+			{{#each fields as |f|}}
+			{{#ifType f 'date'}}
+			{
+					/* Parsing input date id={{f.widgets.0.id}} */
+					var dateField = $("#{{f.widgets.0.id}}_date").val()
+					var timeField = $("#{{f.widgets.0.id}}_time").val()
+					let d = new Date(dateField)
 
-						if (!isNaN(d.getTime())) {
-								extraData["entry.{{f.widgets.0.id}}_year"] = d.getFullYear()
-								extraData["entry.{{f.widgets.0.id}}_month"] = d.getMonth() + 1
-								extraData["entry.{{f.widgets.0.id}}_day"] = d.getUTCDate()
-						}
+					if (!isNaN(d.getTime())) {
+							extraData["entry.{{f.widgets.0.id}}_year"] = d.getFullYear()
+							extraData["entry.{{f.widgets.0.id}}_month"] = d.getMonth() + 1
+							extraData["entry.{{f.widgets.0.id}}_day"] = d.getUTCDate()
+					}
 
-						if (timeField && timeField.split(':').length >= 2) {
-								let values = timeField.split(':')
-								extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
-								extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
-						}
-				}
-				{{/ifType}}
+					if (timeField && timeField.split(':').length >= 2) {
+							let values = timeField.split(':')
+							extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
+							extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
+					}
+			}
+			{{/ifType}}
 
-				{{#ifType f 'time'}}
-				{
-						// Parsing input time id={{f.widgets.0.id}}
-						var field = $("#{{f.widgets.0.id}}").val()
-						if (field) {
-								var values = field.split(':')
-								extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
-								extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
-								extraData["entry.{{f.widgets.0.id}}_second"] = values[2]
-						}
-				}
-				{{/ifType}}
-				{{/each}}
+			{{#ifType f 'time'}}
+			{
+					// Parsing input time id={{f.widgets.0.id}}
+					var field = $("#{{f.widgets.0.id}}").val()
+					if (field) {
+							var values = field.split(':')
+							extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
+							extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
+							extraData["entry.{{f.widgets.0.id}}_second"] = values[2]
+					}
+			}
+			{{/ifType}}
+			{{/each}}
 		`)
 	}
 }

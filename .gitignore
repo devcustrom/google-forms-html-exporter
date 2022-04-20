@@ -6,3 +6,5 @@ test/bower_components
 /bin
 /pkg
 vendor/pkg
+package-lock.json
+docs
