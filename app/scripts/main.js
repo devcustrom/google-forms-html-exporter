@@ -1,81 +1,61 @@
-$(function () {
-    // enable bootstrap tooltips
-    $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'})
-})
+import Alpine from 'alpinejs'
+import Config from './config'
+import Templates from './templates'
 
-$('#example-action').click((event) => {
-    event.preventDefault()
-    let exampleUrl = $('#example-url').attr('href');
-    $('#input-url').val(exampleUrl)
-})
+export default new class Main {
+	constructor() {
+		this.handler();
+	}
 
-$('#input-url').keypress((event) => {
-    if (event.keyCode === 13) {
-        $('#button-fetch').click()
-    }
-})
+	Builder = () => ({
+		input: '',
+		formCode: ' ',
+		jsCode: ' ',
+		async submit() {
+			this.buttonLabel = 'Отправка'
+			this.sending = true
 
-$('#button-fetch').click((event) => {
-    event.stopPropagation()
+			try {
+				const context = await (
+					await fetch(`${Config.serverAddress}/formdress?url=${this.input}`)
+				).json()
+				this.formCode = this.setCodeAsInnerText(Templates.form(context))
+				this.jsCode = this.setCodeAsInnerText(Templates.js(context))
+			} catch (e) {
 
-    let $inputUrl = $('#input-url')
-    function showTooltip(message) {
-        try {
-        $inputUrl
-            .focus()
-            .attr('title', message)
-            .tooltip('fixTitle')
-            .tooltip('show')
-        setTimeout(() => $inputUrl.tooltip('hide'), 2500)
-        } catch (e) { alert(e)}
-    }
+			} finally {
 
-    function setCodeAsInnerText(selector, text) {
-        text = text
-            .split('\n')
-            .filter(l => !!l.trim())  // Remove whitelines
-            .map(l => l.trim() === '<!-- emptyline -->' ? '' : l)  // Transform comment to emptyline
-            .join('\n')
+			}
+		},
+		setCodeAsInnerText(text) {
+			return text
+				.split('\n')
+				.filter(l => !!l.trim())	// Remove whitelines
+				.map(l => l.trim() === '<!-- emptyline -->' ? '' : l)	// Transform comment to emptyline
+				.join('\n')
+		}
+	})
 
-        let $el = $(selector)
-        $el.text(text)
-        hljs.highlightBlock($el.get(0))
-    }
+	handler() {
+		const form = () => ({
+			message: '',
+			async submit() {
+				const form = {
+					method: this.$refs.form.method,
+					mode: 'no-cors',
+					body: new FormData(this.$refs.form)
+				}
+				try {
+					await fetch(this.$refs.form.action)
+				} catch (e) {
 
-    let url = $inputUrl.val()
+				} finally {
 
-    if (!url) {
-        return showTooltip('Don\'t forget the URL!')
-    }
-
-    let $btnFetch = $('#button-fetch')
-    $btnFetch.button('loading')
-
-    $.get(`${window.config.serverAddress}/formdress?url=${url}`)
-    .fail((response) => {
-        if (response.status === 0) {
-            showTooltip('Sorry, service is unavailable at the moment')
-        }
-        else if (response.responseJSON) {
-            showTooltip(response.responseJSON.Error)
-        }
-    })
-    .done((context) => {
-        // Bootstrap Form
-        let bootstrapCodeForm = bootstrapForm(context)
-        setCodeAsInnerText('#target-bootstrap-html', bootstrapCodeForm)
-
-        let bootstrapCodeJs = bootstrapJs(context)
-        setCodeAsInnerText('#target-bootstrap-js', bootstrapCodeJs)
-
-        // Exec Bootstrap JS
-        $('#target-demo').html(bootstrapCodeForm)
-        eval(bootstrapCodeJs)
-
-        $('#main-area').removeClass('hidden')
-        $('.marketing-area').addClass('hidden')
-    })
-    .always(() => $btnFetch.button('reset'))
-
-    return;
-})
+				}
+			}
+		})
+		Alpine.data('Builder', this.Builder)
+		Alpine.data('form', form)
+		Alpine.start()
+	}
+}

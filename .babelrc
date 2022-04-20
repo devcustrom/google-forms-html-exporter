@@ -1,5 +1,3 @@
 {
-  "presets": [
-    "es2015"
-  ]
+  "plugins": ["handlebars-inline-precompile"]
 }
