@@ -10,8 +10,10 @@
     "babel-plugin-handlebars-inline-precompile": "^2.1.1",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
+    "highlight.js": "^11.5.1",
     "laravel-mix": "^6.0.43",
     "mix-html-builder": "^0.8.0",
+    "postcss-import": "^14.1.0",
     "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
