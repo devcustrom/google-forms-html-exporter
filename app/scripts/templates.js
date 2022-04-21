@@ -31,215 +31,219 @@ export default new class Templates {
 		Handlebars.registerHelper('datePlaceholder', () => new Date().toLocaleDateString())
 		Handlebars.registerHelper('timePlaceholder', () => new Date().toLocaleTimeString())
 
-		this.form = Handlebars.compile(`
-			<form
-				x-data="form"
-				x-ref="form"
-				action="https://docs.google.com{{path}}/d/{{action}}/formResponse"
-				@submit.prevent="submit"
-				method="POST"
-			>
-				{{#if title}}
-				<fieldset>
-						<h2>{{ title }}<br><small>{{desc}}</small></h2>
-				</fieldset>
-				{{/if}}
+		this.form =
+		Handlebars.compile(`
+	<!-- emptyline -->
+	<form
+		x-data="form"
+		x-ref="form"
+		action="https://docs.google.com{{path}}/d/{{action}}/formResponse"
+		@submit.prevent="submit"
+		method="POST"
+	>
+		{{#if title}}
+		<fieldset>
+				<h2>{{ title }}<br><small>{{desc}}</small></h2>
+		</fieldset>
+		{{/if}}
 
-				{{#if askEmail}}
-				<fieldset>
-						<legend for="{{emailAddress}}">Email</legend>
-						<div class="form-group">
-								<input id="emailAddress" type="email" name="emailAddress" class="form-control" required>
-						</div>
-				</fieldset>
-				{{/if }}
+		{{#if askEmail}}
+		<fieldset>
+				<legend for="{{emailAddress}}">Email</legend>
+				<div class="form-group">
+						<input id="emailAddress" type="email" name="emailAddress" class="input" required>
+				</div>
+		</fieldset>
+		{{/if }}
 
-				{{#each fields as |f|}}
-				<!-- emptyline -->
-				<!-- emptyline -->
-				<!-- Field type: "{{ fieldtype f.typeid }}" id: "{{f.id}}" -->
-				<fieldset>
-						<legend for="{{f.id}}">{{f.label}}</legend>
-						<div class="form-group">
-								{{#if f.desc}}
-								<p class="help-block">{{ f.desc }}</p>
-								{{/if}}
+		{{#each fields as |f|}}
+		<!-- emptyline -->
+		<!-- emptyline -->
+		<!-- Field type: "{{ fieldtype f.typeid }}" id: "{{f.id}}" -->
+		<fieldset>
+				<legend for="{{f.id}}">{{f.label}}</legend>
+				<div class="form-group">
+						{{#if f.desc}}
+						<p class="help-block">{{ f.desc }}</p>
+						{{/if}}
 
-								{{#ifType f 'short'}}
-								<input id="{{f.widgets.0.id}}" type="text" name="entry.{{f.widgets.0.id}}" class="form-control" {{#if f.widgets.0.required}}required{{/if}}>
-								{{/ifType}}
+						{{#ifType f 'short'}}
+						<input id="{{f.widgets.0.id}}" type="text" name="entry.{{f.widgets.0.id}}" class="input" {{#if f.widgets.0.required}}required{{/if}}>
+						{{/ifType}}
 
-								{{#ifType f 'paragraph'}}
-								<textarea id="{{f.widgets.0.id}}" name="entry.{{f.widgets.0.id}}" class="form-control" {{#if f.widgets.0.required}}required{{/if}}></textarea>
-								{{/ifType}}
+						{{#ifType f 'paragraph'}}
+						<textarea id="{{f.widgets.0.id}}" name="entry.{{f.widgets.0.id}}" class="input" {{#if f.widgets.0.required}}required{{/if}}></textarea>
+						{{/ifType}}
 
-								{{#ifType f 'choices'}}
-								{{#each f.widgets.0.options as |c|}}
-								<div class="radio">
-										{{#if c.custom}}
-										<label>
-												<input type="radio" name="entry.{{f.widgets.0.id}}" value="__other_option__" {{#if f.widgets.0.required}}required{{/if}}>
-										</label>
-										<input type="text" name="entry.{{f.widgets.0.id}}.other_option_response" placeholder="custom value">
-										{{else}}
-										<label>
-												<input type="radio" name="entry.{{f.widgets.0.id}}" value="{{c.label}}" {{#if f.widgets.0.required}}required{{/if}}>
-												{{c.label}}
-										</label>
-										{{/if}}
-								</div>
-								{{/each}}
-								{{/ifType}}
-
-								{{#ifType f 'checkboxes'}}
-								{{#each f.widgets.0.options as |c|}}
-								<div class="checkbox">
-										{{#if c.custom}}
-										<label>
-												<input type="checkbox" name="entry.{{f.widgets.0.id}}" value="__other_option__" {{#if f.widgets.0.required}}required{{/if}}>
-										</label>
-										<input type="text" name="entry.{{f.widgets.0.id}}.other_option_response" placeholder="custom value">
-										{{else}}
-										<label>
-												<input type="checkbox" name="entry.{{f.widgets.0.id}}" value="{{c.label}}" {{#if f.widgets.0.required}}required{{/if}}>
-												{{c.label}}
-										</label>
-										{{/if}}
-								</div>
-								{{/each}}
-								{{/ifType}}
-
-								{{#ifType f 'dropdown'}}
-								<select id="{{f.id}}" name="entry.{{f.widgets.0.id}}" class="form-control">
-										{{#unless f.widgets.0.required}}
-										<option value=""></option>
-										{{/unless}}
-										{{#each f.widgets.0.options as |c|}}
-										<option value="{{c.label}}">{{c.label}}</option>
-										{{/each}}
-								</select>
-								{{/ifType}}
-
-								{{#ifType f 'linear'}}
-								<div>
-								{{#each f.widgets.0.options as |c|}}
-								<label class="radio-inline">
+						{{#ifType f 'choices'}}
+						{{#each f.widgets.0.options as |c|}}
+						<div class="radio">
+								{{#if c.custom}}
+								<label>
+										<input type="radio" name="entry.{{f.widgets.0.id}}" value="__other_option__" {{#if f.widgets.0.required}}required{{/if}}>
+								</label>
+								<input type="text" name="entry.{{f.widgets.0.id}}.other_option_response" placeholder="custom value">
+								{{else}}
+								<label>
 										<input type="radio" name="entry.{{f.widgets.0.id}}" value="{{c.label}}" {{#if f.widgets.0.required}}required{{/if}}>
 										{{c.label}}
 								</label>
-								{{/each}}
-								</div>
-								<div>
-										<div>{{ legend f.widgets.0.options 0 }}: {{ f.widgets.0.legend.first }}</div>
-										<div>{{ legend f.widgets.0.options 1 }}: {{ f.widgets.0.legend.last }}</div>
-								</div>
-								{{/ifType}}
-
-								{{#ifType f 'grid'}}
-								{{#each f.widgets as |w|}}
-								<div>
-										<span>{{w.name}}: </span>
-										{{#each columns as |c|}}
-										<label class="radio-inline">
-												<input type="radio" name="entry.{{w.id}}" value="{{c.label}}" {{#if w.required}}required{{/if}}>
-												{{c.label}}
-										</label>
-										{{/each}}
-								</div>
-								{{/each}}
-								{{/ifType}}
-
-								{{#ifType f 'title' }}
-								{{/ifType}}
-
-								{{#ifType f 'section' }}
-								{{/ifType}}
-
-								{{#ifType f 'date' }}
-								<input type="date" id="{{f.widgets.0.id}}_date" placeholder="{{ datePlaceholder }}" class="form-control" {{#if f.widgets.0.required}}required{{/if}}>
-								{{#if f.widgets.0.options.time}}
-								<input type="time" id="{{f.widgets.0.id}}_time" placeholder="{{ timePlaceholder }}" class="form-control" {{#if f.widgets.0.required}}required{{/if}}>
 								{{/if}}
-								{{/ifType}}
-
-								{{#ifType f 'time'}}
-								<input type="time" id="{{f.widgets.0.id}}" placeholder="{{ timePlaceholder }}" class="form-control" {{#if f.widgets.0.required}}required{{/if}}>
-								{{/ifType}}
-
-								{{#ifType f 'image'}}
-								{{#if f.widgets.0.src}}
-										<img src="{{f.widgets.0.src}}" style="max-width: 100%;">
-								{{/if}}
-								{{/ifType}}
-
-								{{#ifType f 'video'}}
-								{{#if f.widgets.0.src}}
-										<iframe src="{{f.widgets.0.src}}" style="width: 320px; height: 180px;"></iframe>
-								{{/if}}
-								{{/ifType}}
-
-								{{#ifType f 'upload'}}
-								<div>File upload is not yet implemented. Any help is welcome!</div>
-								{{/ifType}}
-
 						</div>
-				</fieldset>
-				{{/each}}
+						{{/each}}
+						{{/ifType}}
 
-				<!-- emptyline -->
-				<input type="hidden" name="fvv" value="1">
-				<input type="hidden" name="fbzx" value="{{fbzx}}">
+						{{#ifType f 'checkboxes'}}
+						{{#each f.widgets.0.options as |c|}}
+						<div class="checkbox">
+								{{#if c.custom}}
+								<label>
+										<input type="checkbox" name="entry.{{f.widgets.0.id}}" value="__other_option__" {{#if f.widgets.0.required}}required{{/if}}>
+								</label>
+								<input type="text" name="entry.{{f.widgets.0.id}}.other_option_response" placeholder="custom value">
+								{{else}}
+								<label>
+										<input type="checkbox" name="entry.{{f.widgets.0.id}}" value="{{c.label}}" {{#if f.widgets.0.required}}required{{/if}}>
+										{{c.label}}
+								</label>
+								{{/if}}
+						</div>
+						{{/each}}
+						{{/ifType}}
 
-				<!--
-					CAVEAT: In multipages (multisection) forms, *pageHistory* field tells to google what sections we've currently completed.
-					This usually starts as "0" for the first page, then "0,1" in the second page... up to "0,1,2..N" in n-th page.
-					Keep this in mind if you plan to change this code to recreate any sort of multipage-feature in your exported form.
+						{{#ifType f 'dropdown'}}
+						<select id="{{f.id}}" name="entry.{{f.widgets.0.id}}" class="input">
+								{{#unless f.widgets.0.required}}
+								<option value=""></option>
+								{{/unless}}
+								{{#each f.widgets.0.options as |c|}}
+								<option value="{{c.label}}">{{c.label}}</option>
+								{{/each}}
+						</select>
+						{{/ifType}}
 
-					We're setting this to the total number of pages in this form because we're sending all fields from all the section together.
-				-->
-				<input type="hidden" name="pageHistory" value="{{ countTo sectionCount }}">
+						{{#ifType f 'linear'}}
+						<div>
+						{{#each f.widgets.0.options as |c|}}
+						<label class="radio-inline">
+								<input type="radio" name="entry.{{f.widgets.0.id}}" value="{{c.label}}" {{#if f.widgets.0.required}}required{{/if}}>
+								{{c.label}}
+						</label>
+						{{/each}}
+						</div>
+						<div>
+								<div>{{ legend f.widgets.0.options 0 }}: {{ f.widgets.0.legend.first }}</div>
+								<div>{{ legend f.widgets.0.options 1 }}: {{ f.widgets.0.legend.last }}</div>
+						</div>
+						{{/ifType}}
 
-				<!-- emptyline -->
-				<button class="" type="submit">Submit</button>
-			</form>
-		`)
+						{{#ifType f 'grid'}}
+						{{#each f.widgets as |w|}}
+						<div>
+								<span>{{w.name}}: </span>
+								{{#each columns as |c|}}
+								<label class="radio-inline">
+										<input type="radio" name="entry.{{w.id}}" value="{{c.label}}" {{#if w.required}}required{{/if}}>
+										{{c.label}}
+								</label>
+								{{/each}}
+						</div>
+						{{/each}}
+						{{/ifType}}
+
+						{{#ifType f 'title' }}
+						{{/ifType}}
+
+						{{#ifType f 'section' }}
+						{{/ifType}}
+
+						{{#ifType f 'date' }}
+						<input type="date" id="{{f.widgets.0.id}}_date" placeholder="{{ datePlaceholder }}" class="input" {{#if f.widgets.0.required}}required{{/if}}>
+						{{#if f.widgets.0.options.time}}
+						<input type="time" id="{{f.widgets.0.id}}_time" placeholder="{{ timePlaceholder }}" class="input" {{#if f.widgets.0.required}}required{{/if}}>
+						{{/if}}
+						{{/ifType}}
+
+						{{#ifType f 'time'}}
+						<input type="time" id="{{f.widgets.0.id}}" placeholder="{{ timePlaceholder }}" class="input" {{#if f.widgets.0.required}}required{{/if}}>
+						{{/ifType}}
+
+						{{#ifType f 'image'}}
+						{{#if f.widgets.0.src}}
+								<img src="{{f.widgets.0.src}}" style="max-width: 100%;">
+						{{/if}}
+						{{/ifType}}
+
+						{{#ifType f 'video'}}
+						{{#if f.widgets.0.src}}
+								<iframe src="{{f.widgets.0.src}}" style="width: 320px; height: 180px;"></iframe>
+						{{/if}}
+						{{/ifType}}
+
+						{{#ifType f 'upload'}}
+						<div>File upload is not yet implemented. Any help is welcome!</div>
+						{{/ifType}}
+
+				</div>
+		</fieldset>
+		{{/each}}
+
+		<!-- emptyline -->
+		<input type="hidden" name="fvv" value="1">
+		<input type="hidden" name="fbzx" value="{{fbzx}}">
+
+		<!--
+			CAVEAT: In multipages (multisection) forms, *pageHistory* field tells to google what sections we've currently completed.
+			This usually starts as "0" for the first page, then "0,1" in the second page... up to "0,1,2..N" in n-th page.
+			Keep this in mind if you plan to change this code to recreate any sort of multipage-feature in your exported form.
+
+			We're setting this to the total number of pages in this form because we're sending all fields from all the section together.
+		-->
+		<input type="hidden" name="pageHistory" value="{{ countTo sectionCount }}">
+
+		<!-- emptyline -->
+		<button class="button" type="submit">Submit</button>
+	</form>`)
 
 		this.js = Handlebars.compile(`
-			{{#each fields as |f|}}
-			{{#ifType f 'date'}}
-			{
-					/* Parsing input date id={{f.widgets.0.id}} */
-					var dateField = $("#{{f.widgets.0.id}}_date").val()
-					var timeField = $("#{{f.widgets.0.id}}_time").val()
-					let d = new Date(dateField)
+	<!-- emptyline -->
+	function() {
 
-					if (!isNaN(d.getTime())) {
-							extraData["entry.{{f.widgets.0.id}}_year"] = d.getFullYear()
-							extraData["entry.{{f.widgets.0.id}}_month"] = d.getMonth() + 1
-							extraData["entry.{{f.widgets.0.id}}_day"] = d.getUTCDate()
-					}
+	}
+		{{#each fields as |f|}}
+		{{#ifType f 'date'}}
+		{
+				/* Parsing input date id={{f.widgets.0.id}} */
+				var dateField = $("#{{f.widgets.0.id}}_date").val()
+				var timeField = $("#{{f.widgets.0.id}}_time").val()
+				let d = new Date(dateField)
 
-					if (timeField && timeField.split(':').length >= 2) {
-							let values = timeField.split(':')
-							extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
-							extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
-					}
-			}
-			{{/ifType}}
+				if (!isNaN(d.getTime())) {
+						extraData["entry.{{f.widgets.0.id}}_year"] = d.getFullYear()
+						extraData["entry.{{f.widgets.0.id}}_month"] = d.getMonth() + 1
+						extraData["entry.{{f.widgets.0.id}}_day"] = d.getUTCDate()
+				}
 
-			{{#ifType f 'time'}}
-			{
-					// Parsing input time id={{f.widgets.0.id}}
-					var field = $("#{{f.widgets.0.id}}").val()
-					if (field) {
-							var values = field.split(':')
-							extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
-							extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
-							extraData["entry.{{f.widgets.0.id}}_second"] = values[2]
-					}
-			}
-			{{/ifType}}
-			{{/each}}
-		`)
+				if (timeField && timeField.split(':').length >= 2) {
+						let values = timeField.split(':')
+						extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
+						extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
+				}
+		}
+		{{/ifType}}
+
+		{{#ifType f 'time'}}
+		{
+				// Parsing input time id={{f.widgets.0.id}}
+				var field = $("#{{f.widgets.0.id}}").val()
+				if (field) {
+						var values = field.split(':')
+						extraData["entry.{{f.widgets.0.id}}_hour"] = values[0]
+						extraData["entry.{{f.widgets.0.id}}_minute"] = values[1]
+						extraData["entry.{{f.widgets.0.id}}_second"] = values[2]
+				}
+		}
+		{{/ifType}}
+		{{/each}}`)
 	}
 }

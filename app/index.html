@@ -13,86 +13,188 @@
 		<meta property="og:description" content="Build a standard HTML5 &lt;form&gt; using any Google Forms" />
 		<meta property="og:image" content="http://stefano.brilli.me/google-forms-html-exporter/images/og.png" />
 		<link rel="stylesheet" href="/css/main.css">
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 	</head>
-	<body x-data="Builder">
-		<div class="text-center jumbotron">
-			<h1>Google Forms HTML Exporter</h1>
-			<p>Build a standard HTML5 <code>&lt;form&gt;</code> using any <a href="https://www.google.com/forms/about/" target="_blank">Google Forms</a></p>
-		</div>
-
-		<div class="container">
-
-			<form
-				@submit.prevent="submit"
-				class="form-fetch"
-				action="#"
-			>
-				<div class="form-group">
-					<span>Paste the public URL of your Google Forms</span>
-					<button type="button" @click="input = $refs.exampleUrl.href">Click Here</button>
-					to fill with
-					<a
-						x-ref="exampleUrl"
-						target="_blank"
-						href="https://docs.google.com/forms/d/e/1FAIpQLSdls8ZHN0eT2UIKdC2FM730McPOxVPbY3WVJzsxtMQr5vKD1A/viewform"
-					>this example</a>
+	<body
+		class="grid grid-cols-[100%] grid-rows-[1fr,auto] min-h-screen overflow-y-scroll"
+		x-data="Builder"
+	>
+		<main>
+			<section>
+				<div class="container p-5 mx-auto mt-20">
+					<h1 class="mb-5 text-3xl font-bold text-center">Google Forms HTML Exporter</h1>
+					<p class="mb-5 text-xl text-center">Build a standard HTML5 <code class="text-purple-500">&lt;form&gt;</code> using</p>
+					<div class="grid items-center gap-4 p-4 mx-auto bg-gray-200 rounded-lg sm:grid-flow-col justify-items-center max-w-max">
+						<a
+							class="transition rounded focus:outline-none focus-visible:ring-purple-500 ring-2 ring-transparent hover:opacity-75"
+							href="https://tailwindcss.com/"
+							rel="nofollow, noopener"
+							target="_blank"
+						>
+							<span class="sr-only">Tailwindcss</span>
+							<svg class="w-full max-h-10 sm:w-auto sm:h-10" viewBox="0 0 248 31"><path fill-rule="evenodd" clip-rule="evenodd" d="M25.52 0c-6.8 0-11.06 3.38-12.76 10.15 2.55-3.39 5.53-4.65 8.93-3.8 1.94.47 3.33 1.87 4.86 3.42 2.5 2.53 5.4 5.45 11.72 5.45 6.8 0 11.06-3.38 12.76-10.15-2.55 3.39-5.52 4.65-8.93 3.8-1.94-.47-3.33-1.87-4.86-3.42C34.74 2.92 31.84 0 25.52 0zM12.76 15.22C5.96 15.22 1.7 18.6 0 25.36c2.55-3.38 5.53-4.65 8.93-3.8 1.94.48 3.33 1.88 4.87 3.43 2.5 2.53 5.4 5.45 11.72 5.45 6.8 0 11.05-3.39 12.75-10.15-2.55 3.38-5.52 4.65-8.93 3.8-1.94-.48-3.32-1.88-4.86-3.43-2.5-2.52-5.4-5.44-11.72-5.44z" fill="#38bdf8"/><path fill-rule="evenodd" clip-rule="evenodd" d="M76.55 12.82h-4.46v8.57c0 2.29 1.51 2.25 4.46 2.1v3.47c-5.97.71-8.34-.93-8.34-5.57v-8.57h-3.3v-3.7h3.3v-4.8l3.88-1.15v5.94h4.46v3.72zm16.97-3.7h3.88v17.84h-3.88V24.4a7.4 7.4 0 0 1-6.29 3.03c-4.88 0-8.94-4.1-8.94-9.38 0-5.32 4.06-9.4 8.95-9.4 2.8 0 4.92 1.15 6.28 3V9.12zm-5.67 14.63c3.23 0 5.67-2.4 5.67-5.71s-2.44-5.72-5.67-5.72-5.68 2.4-5.68 5.72a5.53 5.53 0 0 0 5.68 5.7zm16.01-17.32a2.5 2.5 0 0 1-2.48-2.46 2.48 2.48 0 0 1 2.48-2.46 2.48 2.48 0 0 1 2.48 2.46 2.5 2.5 0 0 1-2.48 2.46zm-1.94 20.53V9.11h3.88v17.85h-3.88zm8.37 0V.9h3.88v26.06h-3.88zm29.05-17.85h4.1l-5.64 17.85H134l-3.74-12.03-3.77 12.03h-3.8l-5.65-17.85h4.1l3.48 12.32 3.77-12.32h3.7l3.73 12.32 3.52-12.32zm8.91-2.68a2.5 2.5 0 0 1-2.48-2.46 2.48 2.48 0 0 1 2.48-2.46 2.48 2.48 0 0 1 2.48 2.46 2.5 2.5 0 0 1-2.48 2.46zm-1.94 20.53V9.11h3.88v17.85h-3.88zm17.81-18.31c4.03 0 6.9 2.71 6.9 7.35v10.96h-3.88V16.39c0-2.7-1.58-4.14-4.02-4.14-2.55 0-4.56 1.5-4.56 5.14v9.57h-3.88V9.11h3.88v2.29c1.18-1.86 3.12-2.75 5.56-2.75zm25.29-6.68h3.87v24.99h-3.87v-2.57a7.4 7.4 0 0 1-6.29 3.03c-4.88 0-8.94-4.1-8.94-9.39 0-5.31 4.06-9.38 8.94-9.38 2.8 0 4.92 1.14 6.29 3V1.97zm-5.68 21.78c3.23 0 5.68-2.4 5.68-5.71s-2.45-5.72-5.68-5.72-5.67 2.4-5.67 5.72a5.53 5.53 0 0 0 5.67 5.7zm22.55 3.67a9.26 9.26 0 0 1-9.48-9.38 9.24 9.24 0 0 1 9.48-9.4 8.88 8.88 0 0 1 8.01 4.61l-3.34 1.93a5.02 5.02 0 0 0-4.7-2.75 5.46 5.46 0 0 0-5.57 5.6c0 3.22 2.4 5.61 5.57 5.61 2.15 0 3.91-1.1 4.77-2.75l3.34 1.9a9.04 9.04 0 0 1-8.08 4.63zm14.48-13.38c0 3.25 9.66 1.28 9.66 7.89 0 3.57-3.13 5.5-7 5.5-3.6 0-6.18-1.61-7.33-4.18l3.34-1.93c.57 1.6 2 2.57 3.98 2.57 1.73 0 3.06-.57 3.06-2 0-3.18-9.66-1.39-9.66-7.78 0-3.36 2.9-5.46 6.57-5.46 2.94 0 5.39 1.35 6.64 3.71l-3.27 1.82c-.64-1.4-1.9-2.03-3.37-2.03-1.4 0-2.62.6-2.62 1.89zm16.55 0c0 3.25 9.66 1.28 9.66 7.89 0 3.57-3.12 5.5-7 5.5-3.6 0-6.18-1.61-7.33-4.18l3.34-1.93c.58 1.6 2.01 2.57 3.99 2.57 1.72 0 3.05-.57 3.05-2 0-3.18-9.66-1.39-9.66-7.78 0-3.36 2.91-5.46 6.57-5.46 2.95 0 5.39 1.35 6.65 3.71l-3.27 1.82c-.65-1.4-1.9-2.03-3.38-2.03-1.4 0-2.62.6-2.62 1.89z" fill="currentColor"/></svg>
+						</a>
+						<span class="text-3xl font-bold leading-none">+</span>
+						<a
+							class="transition rounded focus:outline-none focus-visible:ring-purple-500 ring-2 ring-transparent hover:opacity-75"
+							href="https://alpinejs.dev/"
+							rel="nofollow, noopener"
+							target="_blank"
+						>
+							<img class="max-h-10" src="https://alpinejs.dev/alpine_long.svg" alt="Alpinejs">
+						</a>
+						<span class="text-3xl font-bold leading-none">+</span>
+						<a
+							class="transition rounded focus:outline-none focus-visible:ring-purple-500 ring-2 ring-transparent hover:opacity-75"
+							href="https://www.google.com/forms/about/"
+							rel="nofollow, noopener"
+							target="_blank"
+						>
+							<img class="max-h-10" src="https://www.google.com/images/about/forms-icon.svg" alt="Google forms">
+						</a>
+					</div>
 				</div>
-				<div class="form-group">
-					<input
-						type="url"
-						class="form-control"
-						placeholder="Google Forms URL"
-						x-model="input"
-						required
+			</section>
+			<section>
+				<div class="container p-5 mx-auto">
+					<form
+						@submit.prevent="submit"
+						class="grid max-w-screen-sm gap-4 mx-auto"
+						action="#"
 					>
+						<div class="font-medium">
+							<span>Paste the public URL of your Google Forms</span>
+							<button
+								class="underline transition focus:outline-none focus-visible:text-purple-500 hover:text-purple-500"
+								type="button"
+								@click="input = $refs.exampleUrl.href"
+							>Click Here</button>
+							to fill with
+							<a
+								class="underline transition focus:outline-none focus-visible:text-purple-500 hover:text-purple-500"
+								x-ref="exampleUrl"
+								target="_blank"
+								href="https://docs.google.com/forms/d/e/1FAIpQLSdls8ZHN0eT2UIKdC2FM730McPOxVPbY3WVJzsxtMQr5vKD1A/viewform"
+							>this example</a>
+						</div>
+						<label class="grid">
+							<span class="sr-only">Public URL of your Google Forms</span>
+							<input
+								class="input"
+								type="url"
+								class="form-control"
+								placeholder="Google Forms URL"
+								x-model="input"
+								required
+							>
+						</label>
+						<button class="button">
+							Get the HTML
+						</button>
+					</form>
 				</div>
-				<div class="form-group">
-					<button class="btn btn-primary">
-						Get the HTML
-					</button>
-				</div>
-			</form>
+			</section>
+			<section>
+				<div class="container max-w-screen-lg p-5 mx-auto">
+					<div x-show="showCode" x-cloak>
+						<ul class="grid grid-cols-2 gap-4 mx-auto max-w-max" role="tablist">
+							<li role="presentation" class="active tab-item">
+								<button
+									@click="tab = 'form'"
+									:class="tab === 'form' ? 'bg-purple-500 text-white hover:opacity-75 focus-visible:ring-black focus-visible:bg-white focus-visible:text-black ring-transparent' : 'focus-visible:bg-black focus-visible:text-white ring-purple-500 bg-white text-purple-500 focus-visible:ring-black hover:bg-purple-500 hover:text-white'"
+									class="flex items-center justify-center w-full px-4 py-2 font-semibold transition rounded focus:outline-none ring-2 ring-inset"
+									aria-controls="example"
+									role="tab"
+								>Form</button>
+							</li>
+							<li role="presentation" class="tab-item">
+								<button
 
-			<div id="main-area" class="hidden">
-				<ul class="nav nav-tabs tab" role="tablist">
-					<li role="presentation" class="active tab-item">
-						<a href="#tab-demo" aria-controls="example" role="tab" data-toggle="tab">Form</a>
-					</li>
-					<li role="presentation" class="tab-item">
-						<a href="#tab-bootstrap" aria-controls="example" role="tab" data-toggle="tab">Source Code</a>
-					</li>
-				</ul>
+									@click="tab = 'code'"
+									:class="tab === 'code' ? 'bg-purple-500 text-white hover:opacity-75 focus-visible:ring-black focus-visible:bg-white focus-visible:text-black ring-transparent' : 'focus-visible:bg-black focus-visible:text-white ring-purple-500 bg-white text-purple-500 focus-visible:ring-black hover:bg-purple-500 hover:text-white'"
+									class="flex items-center justify-center w-full px-4 py-2 font-semibold transition rounded focus:outline-none ring-2 ring-inset"
+									aria-controls="example"
+									role="tab"
+								>Source Code</button>
+							</li>
+						</ul>
 
-				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active" id="tab-demo">
-						<div x-html="formCode">
+						<div class="tab-content">
+							<div x-show="tab === 'form'" role="tabpanel" class="">
+								<div x-html="formCode">
+								</div>
+							</div>
+							<div x-show="tab === 'code'" role="tabpanel" class="grid gap-4">
+								<div class="grid gap-x-4 grid-cols-[1fr,auto]">
+									<h3 class="text-2xl font-bold">HTML</h3>
+									<button
+										class="rounded-b-none button"
+										@click="window.navigator.clipboard.writeText(formCode)"
+									>Copy HTML</button>
+									<pre class="w-full col-span-2 overflow-auto border border-purple-500">
+										<code x-html="htmlCode" class="language-html"></code>
+									</pre>
+								</div>
+								<div class="grid gap-x-4 grid-cols-[1fr,auto]">
+									<h3 class="text-2xl font-bold">JS</h3>
+									<button
+										class="rounded-b-none button"
+										@click="window.navigator.clipboard.writeText(jsCode)"
+									>Copy JS</button>
+									<pre class="w-full col-span-2 overflow-auto border border-purple-500">
+										<code x-html="jsCode" class="language-js"></code>
+									</pre>
+								</div>
+								<div class="grid gap-x-4 grid-cols-[1fr,auto]">
+									<h3 class="text-2xl font-bold">TailwindCSS</h3>
+									<button
+										class="rounded-b-none button"
+										@click="window.navigator.clipboard.writeText(jsCode)"
+									>Copy TailwindCSS</button>
+									<pre class="w-full col-span-2 overflow-auto border border-purple-500">
+										<code x-html="tailwindcssCode" class="language-css"></code>
+									</pre>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="tab-bootstrap">
-						<h3>HTML</h3>
-						<button @click="window.navigator.clipboard.writeText(formCode)">Copy HTML</button>
-						<pre x-text="formCode">
-						</pre>
-						<h3>JS</h3>
-						<button @click="window.navigator.clipboard.writeText(jsCode)">Copy JS</button>
-						<pre x-text="jsCode">
-						</pre>
+					<div x-show="!showCode">
+						<h2 class="mb-4 text-2xl font-bold text-center">How it works</h2>
+						<iframe class="w-full aspect-video" src="https://www.youtube.com/embed/gEVNOn2viPI" frameborder="0" allowfullscreen></iframe>
 					</div>
 				</div>
+			</section>
+		</main>
+		<footer class="bg-gray-200 footer">
+			<div class="container p-5 mx-auto font-semibold">
+				<span>© 2017-2022</span>
+				<a
+					class="underline transition focus:outline-none focus-visible:text-purple-500 hover:text-purple-500"
+					href="http://stefano.brilli.me"
+					target="_blank"
+				>Stefano Brilli Back-end developer on GO</a>
+				and
+				<a
+					class="underline transition focus:outline-none focus-visible:text-purple-500 hover:text-purple-500"
+					href="https://github.com/devcustrom"
+				>
+					Alexey Khachaturyan Front-end developer on TailwindCSS and AlpineJS
+				</a>
+				<span>original
+					<a
+						class="underline transition focus:outline-none focus-visible:text-purple-500 hover:text-purple-500"
+						href="https://github.com/cybercase/google-forms-html-exporter"
+					>repo</a></span>
 			</div>
-
-			<div class="marketing-area" class="">
-				<p class="lead">How it works</p>
-				<iframe class="preview-video" src="https://www.youtube.com/embed/gEVNOn2viPI" frameborder="0" allowfullscreen></iframe>
-			</div>
-
-			<footer class="footer">
-				<p>© 2017 <a href="http://stefano.brilli.me" target="_blank">Stefano Brilli</a></p>
-			</footer>
-		</div>
-
-		<a href="https://github.com/cybercase/google-forms-html-exporter" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
-
+			<a
+				class="fixed top-0 right-0"
+				href="https://github.com/devcustrom/google-forms-html-exporter"
+				target="_blank"
+			>
+				<span class="sr-only">Fork me on GitHub</span>
+				<svg width="147" height="147" viewBox="28.39 1.32 147 147"><linearGradient id="a" gradientUnits="userSpaceOnUse" x1="125.57" y1="662.85" x2="105.65" y2="682.77" gradientTransform="translate(0 -614.77)"><stop offset="0" stop-color="#121621"/><stop offset="1" stop-color="#121621"/></linearGradient><path fill="url(#a)" d="M175.62 137.97 35.68-1.98l19.91-19.91 139.95 139.95z"/><path d="M82.99 18.34c.52-.52.86-.89 1.02-1.11l3.66 3.66-1.27 1.27a10.2 10.2 0 0 0-.8-.88l-1.4-1.38-1.78 1.78 1.15 1.15c.35.35.62.6.81.74l-1.25 1.25a6.78 6.78 0 0 0-.63-.7l-1.26-1.26-2.39 2.38c-.45.45-.77.8-.97 1.07l-1.48-1.48c.25-.2.62-.54 1.12-1.03l5.46-5.46zm-.36 12.86c-.73-.74-1.03-1.54-.88-2.41.13-.76.58-1.52 1.35-2.3 1.72-1.7 3.28-1.86 4.69-.45 1.39 1.39 1.22 2.94-.5 4.66a4.43 4.43 0 0 1-2.27 1.34c-.88.16-1.67-.13-2.4-.85zm4.03-4.06c-.35-.35-.75-.41-1.2-.2-.26.13-.6.41-1.06.86-.45.45-.73.8-.85 1.06-.22.45-.16.85.19 1.2s.74.41 1.18.2c.26-.12.62-.41 1.07-.87.45-.44.74-.8.86-1.06.22-.45.16-.84-.2-1.2zm-1.1 6.83c.17-.13.44-.38.8-.74l3.55-3.54c.36-.36.6-.62.71-.78l1.25 1.25-.35.34a1.5 1.5 0 0 1 1.57.95l-1.29 1.3a1.35 1.35 0 0 0-.32-.75c-.22-.2-.56-.33-1.03-.36l-2.77 2.77c-.38.4-.65.68-.8.88l-1.32-1.32zm3.28 3.28c.17-.13.44-.37.8-.74l6.1-6.08c.35-.36.59-.62.7-.78l1.3 1.3c-.17.12-.42.35-.76.68l-3.2 3.2 1.8-.25c.26-.03.48-.08.65-.14l1.48 1.47-3.5.43-1.46 4.82-1.34-1.33c.09-.15.2-.43.32-.85l.96-3.05-1.75 1.74c-.38.39-.65.68-.8.88l-1.3-1.3zm14.62 5.38c.7.06 1.3.36 1.83.88.6.6.77 1.32.55 2.15a4.9 4.9 0 0 1-1.32 2.05l-1.56 1.56c-.52.52-.86.89-1 1.1L100.58 49a11 11 0 0 0 1.13-1.02l1.54-1.54c.84-.83 1.03-1.48.57-1.94-.3-.3-.6-.48-.87-.5a8.1 8.1 0 0 1-.97 1.17l-1.56 1.56c-.52.52-.86.88-1.01 1.1l-1.37-1.38a10 10 0 0 0 1.13-1.01l1.55-1.53c.48-.48.76-.85.85-1.12.1-.26.03-.51-.21-.75a1.35 1.35 0 0 0-.97-.35l-2.84 2.84a6.8 6.8 0 0 0-.42.46l-.26.3-1.33-1.33c.15-.1.4-.34.75-.69l3.56-3.55c.4-.41.66-.7.76-.83l1.25 1.27-.37.35c.6.07 1.05.26 1.35.55.45.45.65.97.61 1.55zm5.23 10.18-2.53-2.52c-.67.79-.68 1.51-.01 2.17.43.44.92.7 1.47.81l-1.22 1.22a4.9 4.9 0 0 1-1.48-.96 3 3 0 0 1-.99-2.5c.09-.88.53-1.72 1.34-2.53a4.19 4.19 0 0 1 2.22-1.24 2.5 2.5 0 0 1 2.28.73c.62.63.89 1.32.8 2.08a3.6 3.6 0 0 1-1.14 2.07c-.26.26-.5.48-.74.67zm.06-3.73c-.44-.44-.96-.4-1.57.15l1.4 1.4c.57-.58.62-1.1.17-1.55zM111.43 60c-.73-.74-1.03-1.54-.88-2.41a4.5 4.5 0 0 1 1.35-2.3c1.72-1.7 3.28-1.86 4.69-.46 1.4 1.4 1.23 2.95-.49 4.67a4.43 4.43 0 0 1-2.27 1.34c-.88.16-1.68-.12-2.4-.85zm4.03-4.06c-.35-.35-.75-.41-1.2-.19-.25.12-.6.4-1.06.85-.44.45-.73.8-.85 1.06-.22.45-.16.85.2 1.2.34.35.74.41 1.18.2.25-.12.61-.4 1.07-.86.44-.45.73-.8.85-1.06.22-.45.16-.85-.2-1.2zm6.37 4.09c.62.6.83 1.35.62 2.22-.17.74-.6 1.45-1.27 2.12l-1.56 1.57a8.9 8.9 0 0 0-1 1.09l-1.38-1.37c.2-.15.57-.5 1.12-1.03l1.55-1.53c.86-.85 1.02-1.55.47-2.1-.25-.25-.63-.38-1.15-.4l-2.8 2.81a7.83 7.83 0 0 0-.69.75l-1.33-1.32c.15-.1.4-.34.76-.69l3.5-3.5c.43-.44.7-.73.8-.88l1.27 1.27-.41.4c.64.04 1.14.23 1.5.6zm4.73 13.67c-.28.08-.63.06-1.04-.07-.5-.15-.96-.44-1.39-.86-1.88-1.89-1.5-4.15 1.13-6.79 1.26-1.25 2.48-1.94 3.67-2.07 1.2-.13 2.31.32 3.35 1.36.6.59.91 1.3.97 2.1l-1.3 1.3a3.28 3.28 0 0 0-.91-2.17c-1.12-1.12-2.56-.79-4.34.98-1.8 1.8-2.24 3.15-1.34 4.06.74.74 1.56.65 2.47-.26.1-.09.4-.4.87-.91l1.4 1.39c-.36.3-.74.64-1.13 1.04l-1.32 1.32a10.47 10.47 0 0 0-.93 1 .94.94 0 0 1-.23-.23l.07-1.2zm1.12 2.4c.17-.14.43-.4.8-.76l3.54-3.54c.36-.36.6-.62.72-.77l1.28 1.28c-.16.13-.4.36-.74.7l-3.5 3.5c-.39.38-.66.67-.82.86l-1.28-1.28zm6.6-5.3a1.06 1.06 0 0 1-.32-.81 1.25 1.25 0 0 1 1.2-1.2c.32-.01.6.1.81.31.22.21.32.48.3.8 0 .33-.13.61-.37.85-.23.22-.5.34-.82.35-.33.01-.6-.09-.8-.3zm2.17 3.95.98.98-1.1 1.1-.2-.22-.27-.3-.49-.48-2.12 2.12c-.5.5-.6.93-.26 1.26.23.24.51.38.83.44l-1.14 1.14a3 3 0 0 1-1.24-.79c-.56-.55-.75-1.13-.57-1.74.14-.46.53-1 1.17-1.64l2.04-2.04.03-.01-.16-.19a4 4 0 0 0-.43-.35l1.1-1.1.57.56.44-.45c.22-.21.38-.4.49-.55l1.32 1.33a3.5 3.5 0 0 0-.52.46l-.47.47zm6.35 7.17.38.37-1.25 1.25-.37-.37-2.6 2.6c-.36.36-.61.64-.76.84l-1.49-1.49c.23-.17.53-.44.9-.82l2.55-2.54-2.08-2.07-2.53 2.52c-.4.41-.69.72-.83.92l-1.48-1.48c.21-.15.5-.4.84-.75l6.01-6c.35-.36.6-.64.75-.85l1.48 1.48c-.22.16-.5.41-.84.75l-2.15 2.16 2.08 2.07 1.99-2c.46-.46.77-.79.91-1l1.5 1.5c-.2.14-.45.35-.75.65l-2.25 2.26zm-1.75 7.63a2 2 0 0 1-.54-2.13c.21-.66.66-1.34 1.36-2.04l1.56-1.56c.52-.52.86-.88 1-1.1l1.38 1.38c-.2.14-.57.48-1.12 1.02l-1.55 1.53c-.44.44-.7.8-.79 1.08-.12.35-.03.68.27.98.21.21.57.32 1.09.34l2.8-2.81a6.88 6.88 0 0 0 .68-.77l1.33 1.33c-.15.11-.4.35-.74.7l-3.49 3.48c-.45.45-.73.74-.83.88l-1.25-1.25.41-.4a2.34 2.34 0 0 1-1.57-.66zm5.65 5.62a1.9 1.9 0 0 1-.6-1.47l-.4.41-1.2-1.2c.14-.1.4-.34.75-.69l6.02-6.03c.45-.44.73-.74.82-.89l1.3 1.3c-.15.12-.45.4-.88.83l-1.98 1.99c.57.13 1.03.36 1.36.7.6.6.8 1.34.62 2.2-.18.76-.6 1.47-1.26 2.13a4.73 4.73 0 0 1-2.22 1.3c-.95.23-1.73.03-2.34-.58zm3.76-4.1c-.26-.25-.65-.4-1.17-.41l-1.98 1.97c0 .48.13.84.37 1.08.3.3.68.36 1.16.18.38-.13.75-.38 1.11-.74.86-.86 1.03-1.56.5-2.08z" fill="#FFF"/><path d="m30.7-9.86 154.38 154.37M46.58-27.99l154.38 154.38" opacity=".5" fill="none" stroke="#FFF" stroke-dasharray="3 1.5"/></svg>
+			</a>
+		</footer>
 		<script src="/js/main.js"></script>
 	</body>
 </html>

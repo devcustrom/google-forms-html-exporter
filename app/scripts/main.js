@@ -1,6 +1,7 @@
 import Alpine from 'alpinejs'
 import Config from './config'
 import Templates from './templates'
+import hljs from 'highlight.js'
 
 export default new class Main {
 	constructor() {
@@ -9,7 +10,11 @@ export default new class Main {
 
 	Builder = () => ({
 		input: '',
+		tab: 'form',
+		showCode: false,
 		formCode: ' ',
+		htmlCode: ' ',
+		tailwindcssCode: ' ',
 		jsCode: ' ',
 		async submit() {
 			this.buttonLabel = 'Отправка'
@@ -20,11 +25,21 @@ export default new class Main {
 					await fetch(`${Config.serverAddress}/formdress?url=${this.input}`)
 				).json()
 				this.formCode = this.setCodeAsInnerText(Templates.form(context))
-				this.jsCode = this.setCodeAsInnerText(Templates.js(context))
+				this.htmlCode = hljs.highlightAuto(this.setCodeAsInnerText(Templates.form(context))).value
+				this.jsCode = hljs.highlightAuto(this.setCodeAsInnerText(Templates.js(context))).value
+				this.tailwindcssCode = hljs.highlightAuto(`
+	.button {
+		@apply flex items-center justify-center px-4 py-2 font-semibold text-white transition bg-purple-500 rounded focus:outline-none focus-visible:ring-purple-500 focus-visible:bg-white focus-visible:text-black ring-2 ring-transparent hover:opacity-75;
+	}
+
+	.input {
+		@apply rounded ring-2 p-2 ring-purple-500 m-0.5 focus:ring-black hover:ring-purple-300 transition focus:outline-none;
+	}`).value
+				this.showCode = true
 			} catch (e) {
 
 			} finally {
-
+				console.log('test');
 			}
 		},
 		setCodeAsInnerText(text) {
