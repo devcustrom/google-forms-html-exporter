@@ -24,13 +24,12 @@ export default new class Templates {
 	}
 
 	handler() {
-		Handlebars
-			.registerHelper('ifType', (field, typename, options) => field.typeid === this.FieldTypes.indexOf(typename) ? options.fn(this) : '')
-			.registerHelper('fieldtype', (typeid) => this.FieldTypes[typeid])
-			.registerHelper('countTo', (num) => [...Array(num).keys()].join(','))
-			.registerHelper('legend', (array, last) => last ? array[array.length-1].label : array[0].label)
-			.registerHelper('datePlaceholder', () => new Date().toLocaleDateString())
-			.registerHelper('timePlaceholder', () => new Date().toLocaleTimeString())
+		Handlebars.registerHelper('ifType', (field, typename, options) => field.typeid === this.FieldTypes.indexOf(typename) ? options.fn(this) : '')
+		Handlebars.registerHelper('fieldtype', (typeid) => this.FieldTypes[typeid])
+		Handlebars.registerHelper('countTo', (num) => [...Array(num).keys()].join(','))
+		Handlebars.registerHelper('legend', (array, last) => last ? array[array.length-1].label : array[0].label)
+		Handlebars.registerHelper('datePlaceholder', () => new Date().toLocaleDateString())
+		Handlebars.registerHelper('timePlaceholder', () => new Date().toLocaleTimeString())
 
 		this.form = Handlebars.compile(`
 			<form
